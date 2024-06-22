@@ -4,7 +4,7 @@ import subprocess
 class PowerMenuWidget(base._TextBox):
     def __init__(self, **config):
         # Initialize the widget with the power icon
-        super().__init__(" ⏻ ", **config)
+        super().__init__(" ⏻  ", **config)
         # Add callback for left mouse button click
         self.add_callbacks({'Button1': self.run_power_menu})
 
