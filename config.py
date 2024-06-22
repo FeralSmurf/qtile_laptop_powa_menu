@@ -5,34 +5,18 @@
 
 ### DEPENDENCIES ###
 
-<<<<<<< HEAD
-
-
-=======
->>>>>>> 59d97be (latest laptop config)
 from libqtile import bar, layout, widget
 from libqtile.config import Click, Drag, Group, Key, Match, Screen
 from libqtile.lazy import lazy
 from libqtile.utils import guess_terminal
-
-<<<<<<< HEAD
-=======
 from PowerMenuWidget import PowerMenuWidget
 
-
->>>>>>> 59d97be (latest laptop config)
 mod = "mod4"
 terminal = guess_terminal()
 
 keys = [
-<<<<<<< HEAD
-    # A list of available commands that can be bound to keys can be found
-    # at https://docs.qtile.org/en/latest/manual/config/lazy.html
-=======
     # Cusom powermenu shortcut key
     Key([mod], "p", lazy.spawn("/home/feralsmurf/.config/qtile/powermenu.sh")),
-    #
->>>>>>> 59d97be (latest laptop config)
     # Switch between windows
     Key([mod], "h", lazy.layout.left(), desc="Move focus to left"),
     Key([mod], "l", lazy.layout.right(), desc="Move focus to right"),
@@ -41,10 +25,6 @@ keys = [
     Key([mod], "space", lazy.layout.next(), desc="Move window focus to other window"),
     # Move windows between left/right columns or move up/down in current stack.
     # Moving out of range in Columns layout will create new column.
-<<<<<<< HEAD
-    Key([mod, "shift"], "h", lazy.layout.shuffle_left(), desc="Move window to the left"),
-    Key([mod, "shift"], "l", lazy.layout.shuffle_right(), desc="Move window to the right"),
-=======
     Key(
         [mod, "shift"], "h", lazy.layout.shuffle_left(), desc="Move window to the left"
     ),
@@ -54,19 +34,11 @@ keys = [
         lazy.layout.shuffle_right(),
         desc="Move window to the right",
     ),
->>>>>>> 59d97be (latest laptop config)
     Key([mod, "shift"], "j", lazy.layout.shuffle_down(), desc="Move window down"),
     Key([mod, "shift"], "k", lazy.layout.shuffle_up(), desc="Move window up"),
     # Grow windows. If current window is on the edge of screen and direction
     # will be to screen edge - window would shrink.
     Key([mod, "control"], "h", lazy.layout.grow_left(), desc="Grow window to the left"),
-<<<<<<< HEAD
-    Key([mod, "control"], "l", lazy.layout.grow_right(), desc="Grow window to the right"),
-    Key([mod, "control"], "j", lazy.layout.grow_down(), desc="Grow window down"),
-    Key([mod, "control"], "k", lazy.layout.grow_up(), desc="Grow window up"),
-    Key([mod], "n", lazy.layout.normalize(), desc="Reset all window sizes"),
-    # Alt+Tab
-=======
     Key(
         [mod, "control"], "l", lazy.layout.grow_right(), desc="Grow window to the right"
     ),
@@ -74,7 +46,6 @@ keys = [
     Key([mod, "control"], "k", lazy.layout.grow_up(), desc="Grow window up"),
     Key([mod], "n", lazy.layout.normalize(), desc="Reset all window sizes"),
     # Alt+Tab:
->>>>>>> 59d97be (latest laptop config)
     Key([mod], "Tab", lazy.screen.toggle_group(), desc="Toggle between windows"),
     # Toggle between split and unsplit sides of stack.
     # Split = all windows displayed
@@ -96,31 +67,6 @@ keys = [
         lazy.window.toggle_fullscreen(),
         desc="Toggle fullscreen on the focused window",
     ),
-<<<<<<< HEAD
-    Key([mod], "t", lazy.window.toggle_floating(), desc="Toggle floating on the focused window"),
-    Key([mod, "control"], "r", lazy.reload_config(), desc="Reload the config"),
-    Key([mod], "r", lazy.spawn("rofi -show run"), desc="Spawn a command using rofi"),
-
-    #################
-
-    # Custom keys:
-
-    #################
-    
-    #brightness
-    Key([], "XF86MonBrightnessUp", lazy.spawn("brightnessctl set +10%")),
-    Key([], "XF86MonBrightnessDown", lazy.spawn("brightnessctl set 10%-")),
-    # volume
-    Key([], "XF86AudioLowerVolume", lazy.spawn("amixer sset Master 5%-"), desc="Lower Volume by 5%"),
-    Key([], "XF86AudioRaiseVolume", lazy.spawn("amixer sset Master 5%+"), desc="Raise Volume by 5%"),
-    #lang
-    Key([mod], "F1",
-            lazy.spawn("setxkbmap us"), 
-            desc= "Change to US layout"),
-    Key([mod],"F2",
-            lazy.spawn("setxkbmap ro std"),
-            desc= "Change to RO layout"),
-=======
     Key(
         [mod],
         "t",
@@ -151,16 +97,10 @@ keys = [
     # lang
     Key([mod], "F1", lazy.spawn("setxkbmap us"), desc="Change to US layout"),
     Key([mod], "F2", lazy.spawn("setxkbmap ro std"), desc="Change to RO layout"),
->>>>>>> 59d97be (latest laptop config)
 ]
 
 groups = [Group(i) for i in "123456789"]
 
-
-<<<<<<< HEAD
-
-=======
->>>>>>> 59d97be (latest laptop config)
 for i in groups:
     keys.extend(
         [
@@ -182,17 +122,6 @@ for i in groups:
     )
 
 groups = [
-<<<<<<< HEAD
-    Group("1", spawn=["code"]),
-    Group("2", spawn=["alacritty"]),
-    Group("3", spawn=["firefox"]),
-    Group("4", ),
-    Group("5", ),
-]
-
-layouts = [
-    layout.Columns(border_focus='#a6e3a1', border_normal='#45475a', border_width=4, name=''),
-=======
     Group("1", spawn=["code"], label="1"),
     Group("2", spawn=["firefox"], label="2"),
     Group("3", spawn=["alacritty"], label="3"),
@@ -204,7 +133,6 @@ layouts = [
     layout.Columns(
         border_focus="#94e2d5", border_normal="#45475a", border_width=4, name=""
     ),
->>>>>>> 59d97be (latest laptop config)
     # layout.Max(),
     # Try more layouts by unleashing below layouts.
     # layout.Stack(num_stacks=2),
@@ -226,7 +154,6 @@ widget_defaults = dict(
 )
 extension_defaults = widget_defaults.copy()
 
-
 screens = [
     Screen(
         top=bar.Bar(
@@ -241,18 +168,6 @@ screens = [
                     },
                     name_transform=lambda name: name.upper(),
                 ),
-<<<<<<< HEAD
-                # NB Systray is incompatible with Wayland, consider using StatusNotifier instead
-                # widget.StatusNotifier(),
-                widget.Wlan(fmt='🌐 {} ', format='{essid}, {percent:2.0%}' ),
-                widget.DF(partition='/home', format = '{uf}{m} free ',  fmt = '💽 {}', visible_on_warn = False),
-                widget.Backlight(fmt='🪔 {} ', backlight_name='intel_backlight'),
-                widget.Volume(fmt='📢 {} '),
-                widget.Battery(fmt='⚡️ {} ', format='{char} {percent:2.0%} {hour:d}:{min:02d}'),
-                widget.Systray(),
-                                widget.Clock(fmt='⏳️ {}', format="%Y-%m-%d %a %H:%M "),
-                widget.KeyboardLayout(fmt='👅 {} ', configured_keyboards=['us','ro']),
-=======
                 widget.Clipboard(fmt="📋️ {}"),
                 widget.Systray(),
                 widget.Wlan(fmt=" 🌐 {} ", format="{essid}"),
@@ -276,7 +191,6 @@ screens = [
                 widget.Clock(fmt="⏳️ {} ", format="%Y-%m-%d %a %H:%M "),
                 widget.KeyboardLayout(fmt="🎹 {} ", configured_keyboards=["us", "ro"]),
                 PowerMenuWidget(name="powermenu"),
->>>>>>> 59d97be (latest laptop config)
             ],
             24,
             # border_width=[2, 0, 2, 0],  # Draw top and bottom borders
@@ -287,10 +201,6 @@ screens = [
 
 # Drag floating layouts.
 mouse = [
-<<<<<<< HEAD
-    Drag([mod], "Button1", lazy.window.set_position_floating(), start=lazy.window.get_position()),
-    Drag([mod], "Button3", lazy.window.set_size_floating(), start=lazy.window.get_size()),
-=======
     Drag(
         [mod],
         "Button1",
@@ -300,7 +210,6 @@ mouse = [
     Drag(
         [mod], "Button3", lazy.window.set_size_floating(), start=lazy.window.get_size()
     ),
->>>>>>> 59d97be (latest laptop config)
     Click([mod], "Button2", lazy.window.bring_to_front()),
 ]
 
