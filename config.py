@@ -15,8 +15,7 @@ mod = "mod4"
 terminal = guess_terminal()
 
 keys = [
-    # Cusom powermenu shortcut key
-    Key([mod], "p", lazy.spawn("/home/feralsmurf/.config/qtile/powermenu.sh")),
+    Key([mod], "p", lazy.spawn("bash /home/feralsmurf/.config/qtile/powermenu.sh")),
     # Switch between windows
     Key([mod], "h", lazy.layout.left(), desc="Move focus to left"),
     Key([mod], "l", lazy.layout.right(), desc="Move focus to right"),
@@ -190,7 +189,7 @@ screens = [
                 ),
                 widget.Clock(fmt="⏳️ {} ", format="%Y-%m-%d %a %H:%M "),
                 widget.KeyboardLayout(fmt="🎹 {} ", configured_keyboards=["us", "ro"]),
-                PowerMenuWidget(name="powermenu"),
+                PowerMenuWidget(),
             ],
             24,
             # border_width=[2, 0, 2, 0],  # Draw top and bottom borders
