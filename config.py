@@ -18,9 +18,13 @@ keys = [
     Key([mod], "p", lazy.spawn("bash /home/feralsmurf/.config/qtile/powermenu.sh")),
     # Switch between windows
     Key([mod], "h", lazy.layout.left(), desc="Move focus to left"),
+    Key([mod], "left", lazy.layout.left(), desc="Move focus to left"),
     Key([mod], "l", lazy.layout.right(), desc="Move focus to right"),
+    Key([mod], "right", lazy.layout.right(), desc="Move focus to right"),
     Key([mod], "j", lazy.layout.down(), desc="Move focus down"),
+    Key([mod], "down", lazy.layout.down(), desc="Move focus down"),
     Key([mod], "k", lazy.layout.up(), desc="Move focus up"),
+    Key([mod], "up", lazy.layout.up(), desc="Move focus up"),
     Key([mod], "space", lazy.layout.next(), desc="Move window focus to other window"),
     # Move windows between left/right columns or move up/down in current stack.
     # Moving out of range in Columns layout will create new column.
@@ -96,6 +100,9 @@ keys = [
     # lang
     Key([mod], "F1", lazy.spawn("setxkbmap us"), desc="Change to US layout"),
     Key([mod], "F2", lazy.spawn("setxkbmap ro std"), desc="Change to RO layout"),
+
+    #
+    Key([mod], "d", lazy.spawn("rofi -show window"), desc="Show active windows using rofi"),
 ]
 
 groups = [Group(i) for i in "123456789"]
@@ -124,13 +131,17 @@ groups = [
     Group("1", spawn=["code"], label="1"),
     Group("2", spawn=["alacritty"], label="2"),
     Group("3", spawn=["firefox"], label="3"),
-    Group("4", spawn=["qutebrowser https://youtube.com"], label="4"),
+    Group("4"),
     Group("5"),
 ]
 
 layouts = [
     layout.Columns(
-        border_focus="#94e2d5", border_normal="#45475a", border_width=4, name=""
+        border_focus="#94e2d5",
+        border_normal="#45475a",
+        border_width=2,
+        name="",
+        margin=8,
     ),
     # layout.Max(),
     # Try more layouts by unleashing below layouts.
@@ -187,8 +198,8 @@ screens = [
                 widget.Battery(
                     fmt="⚡️ {} ", format="{char} {percent:2.0%} {hour:d}:{min:02d}"
                 ),
-                widget.Clock(fmt="⏳️ {} ", format="%Y-%m-%d %a %H:%M "),
-                widget.KeyboardLayout(fmt="🎹 {} ", configured_keyboards=["us", "ro"]),
+                widget.Clock(fmt="⏳️ {} ", format="%Y-%m-%d %a %H:%M"),
+                # widget.KeyboardLayout(fmt="🎹 {} ", configured_keyboards=["us", "ro"]),
                 PowerMenuWidget(),
             ],
             24,
