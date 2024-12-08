@@ -9,7 +9,7 @@ from libqtile import bar, layout, widget
 from libqtile.config import Click, Drag, Group, Key, Match, Screen
 from libqtile.lazy import lazy
 from libqtile.utils import guess_terminal
-from PowerMenuWidget import PowerMenuWidget
+# from PowerMenuWidget import PowerMenuWidget # fancy power menu
 
 mod = "mod4"
 terminal = guess_terminal()
@@ -100,9 +100,13 @@ keys = [
     # lang
     Key([mod], "F1", lazy.spawn("setxkbmap us"), desc="Change to US layout"),
     Key([mod], "F2", lazy.spawn("setxkbmap ro std"), desc="Change to RO layout"),
-
     #
-    Key([mod], "d", lazy.spawn("rofi -show window"), desc="Show active windows using rofi"),
+    Key(
+        [mod],
+        "d",
+        lazy.spawn("rofi -show window"),
+        desc="Show active windows using rofi",
+    ),
 ]
 
 groups = [Group(i) for i in "123456789"]
@@ -128,9 +132,9 @@ for i in groups:
     )
 
 groups = [
-    Group("1", spawn=["code"], label="1"),
-    Group("2", spawn=["alacritty"], label="2"),
-    Group("3", spawn=["firefox"], label="3"),
+    Group("1", label="1"),
+    Group("2", spawn=["firefox"], label="2"),
+    Group("3", label="3", spawn=["alacritty -e fish -c 'wttr; exec fish'"]),
     Group("4"),
     Group("5"),
 ]
@@ -200,7 +204,7 @@ screens = [
                 ),
                 widget.Clock(fmt="⏳️ {} ", format="%Y-%m-%d %a %H:%M"),
                 # widget.KeyboardLayout(fmt="🎹 {} ", configured_keyboards=["us", "ro"]),
-                PowerMenuWidget(),
+                # PowerMenuWidget(),
             ],
             24,
             # border_width=[2, 0, 2, 0],  # Draw top and bottom borders
