@@ -63,7 +63,7 @@ keys = [
     Key([mod], "Return", lazy.spawn(terminal), desc="Launch terminal"),
     # Toggle between different layouts as defined below
     # Key([mod], "Tab", lazy.next_layout(), desc="Toggle between layouts"),
-    Key([mod], "w", lazy.window.kill(), desc="Kill focused window"),
+    Key([mod, "shift"], "q", lazy.window.kill(), desc="Kill focused window"),
     Key(
         [mod],
         "f",
@@ -78,6 +78,7 @@ keys = [
     ),
     Key([mod, "control"], "r", lazy.reload_config(), desc="Reload the config"),
     Key([mod], "r", lazy.spawn("rofi -show run"), desc="Spawn a command using rofi"),
+    Key([mod], "o", lazy.spawn("rofi -show window"), desc="Show all active windows"),
     #################
     # Custom keys:
     #################
@@ -96,6 +97,12 @@ keys = [
         "XF86AudioRaiseVolume",
         lazy.spawn("amixer sset Master 5%+"),
         desc="Raise Volume by 5%",
+    ),
+    Key(
+        [],
+        "XF86AudioMute",
+        lazy.spawn("amixer sset Master toggle"),
+        desc="Toggle Mute",
     ),
     # lang
     Key([mod], "F1", lazy.spawn("setxkbmap us"), desc="Change to US layout"),
@@ -133,9 +140,14 @@ for i in groups:
 
 groups = [
     Group("1", label="1"),
-    Group("2", spawn=["firefox"], label="2"),
+    Group(
+        "2",
+        # spawn=["firefox"],
+        spawn=["qutebrowser"],
+        label="2",
+    ),
     Group("3", label="3", spawn=["alacritty -e fish -c 'wttr; exec fish'"]),
-    Group("4"),
+    Group("4", label="4"),
     Group("5"),
 ]
 
@@ -184,6 +196,9 @@ screens = [
                 ),
                 widget.Clipboard(fmt="📋️ {}"),
                 widget.Systray(),
+                # widget.Pomodoro(
+                #     fmt="🍅 {}", prefix_inactive="Pomodoro", color_inactive="#ffffff"
+                # ),
                 widget.Wlan(fmt=" 🌐 {} ", format="{essid}"),
                 widget.DF(
                     partition="/home",
