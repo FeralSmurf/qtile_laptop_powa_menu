@@ -2,6 +2,7 @@
 
 # 1 brightnessctl
 # 2 alsa-utils
+# 3 python-psutil
 
 ### DEPENDENCIES ###
 
@@ -9,7 +10,31 @@ from libqtile import bar, layout, widget
 from libqtile.config import Click, Drag, Group, Key, Match, Screen
 from libqtile.lazy import lazy
 from libqtile.utils import guess_terminal
+
 # from PowerMenuWidget import PowerMenuWidget # fancy power menu
+
+# WAYLADND support
+# from libqtile import qtile
+# if qtile.core.name == "x11":
+#     term = "urxvt"
+# elif qtile.core.name == "wayland":
+#     term = "foot"
+
+# ! no nitrogem, no rofi in wayland
+
+# Catppuccin mocha color schme
+colors = {
+    "red": "#f38ba8",
+    "green": "#a6e3a1",
+    "yellow": "#f9e2af",
+    "blue": "#89b4fa",
+    "magenta": "#f5c2e7",
+    "cyan": "#94e2d5",
+    "white": "#cdd6f4",
+    "black": "#1e1e2e",
+    "mauve": "#cba6f7",
+    "gray": "#7f849c",
+}
 
 mod = "mod4"
 terminal = guess_terminal()
@@ -139,25 +164,25 @@ for i in groups:
     )
 
 groups = [
-    Group("1", label="1"),
+    Group("1", label="α"),
     Group(
         "2",
         # spawn=["firefox"],
         spawn=["qutebrowser"],
-        label="2",
+        label="β",
     ),
-    Group("3", label="3", spawn=["alacritty -e fish -c 'wttr; exec fish'"]),
-    Group("4", label="4"),
-    Group("5"),
+    Group("3", label="γ", spawn=["alacritty -e fish -c 'wttr; exec fish'"]),
+    Group("4", label="Δ"),
+    Group("5", label="ε"),
 ]
 
 layouts = [
     layout.Columns(
-        border_focus="#94e2d5",
-        border_normal="#45475a",
+        border_focus=colors["blue"],
+        border_normal=colors["black"],
         border_width=2,
         name="",
-        margin=8,
+        margin=4,
     ),
     # layout.Max(),
     # Try more layouts by unleashing below layouts.
@@ -185,34 +210,55 @@ screens = [
         top=bar.Bar(
             [
                 widget.CurrentLayout(),
-                widget.GroupBox(),
+                widget.GroupBox(
+                    highlight_method="block",
+                    this_current_screen_border=colors["gray"],
+                ),
                 widget.Prompt(),
                 widget.WindowName(),
                 widget.Chord(
                     chords_colors={
-                        "launch": ("#ff0000", "#ffffff"),
+                        "launch": (colors["red"], colors["white"]),
                     },
                     name_transform=lambda name: name.upper(),
                 ),
                 widget.Clipboard(fmt="📋️ {}"),
                 widget.Systray(),
-                # widget.Pomodoro(
-                #     fmt="🍅 {}", prefix_inactive="Pomodoro", color_inactive="#ffffff"
+                # widget.Net(
+                #     fmt="↕️ {} ",
+                #     format="{down:.0f}{down_suffix} ↓↑ {up:.0f}{up_suffix}",
+                #     prefix="M",
                 # ),
                 widget.Wlan(fmt=" 🌐 {} ", format="{essid}"),
+                # widget.Pomodoro(
+                #     fmt="⏲️  {} ", prefix_inactive="Pomodoro"
+                # ),
+                # widget.Load(fmt="🛠️ {} ", format="{time}:{load:.2f}"),
+                # widget.ThermalSensor(
+                #     fmt="🔥 {} ",
+                #     tag_sensor="Package id 0",
+                #     update_interval=10,
+                #     format="{temp:.0f}°C",
+                # ),
+                # widget.Memory(
+                #     fmt="🐏 {} ",
+                #     format="{MemUsed:.0f}{mm}/{MemTotal:.0f}{mm}",
+                #     measure_mem="G",
+                # ),
+                # widget.CPU(fmt="🧠 {} ", format="{load_percent:.0f}%", width=70),
+                widget.DF(
+                    partition="/",
+                    format="{uf}{m} ",
+                    fmt="🔏 {}",
+                    visible_on_warn=False,
+                ),
                 widget.DF(
                     partition="/home",
-                    format="{uf}{m} free ",
+                    format="{uf}{m} ",
                     fmt="💽 {}",
                     visible_on_warn=False,
                 ),
                 widget.Backlight(fmt="🪔 {} ", backlight_name="intel_backlight"),
-                widget.ThermalSensor(
-                    fmt="🔥 {} ",
-                    tag_sensor="Package id 0",
-                    update_interval=10,
-                    format="{temp:.0f}°C",
-                ),
                 widget.Volume(fmt="📢 {} "),
                 widget.Battery(
                     fmt="⚡️ {} ", format="{char} {percent:2.0%} {hour:d}:{min:02d}"
@@ -222,8 +268,6 @@ screens = [
                 # PowerMenuWidget(),
             ],
             24,
-            # border_width=[2, 0, 2, 0],  # Draw top and bottom borders
-            # border_color=["ff00ff", "000000", "ff00ff", "000000"]  # Borders are magenta
         ),
     ),
 ]
@@ -259,8 +303,8 @@ floating_layout = layout.Floating(
         Match(title="branchdialog"),  # gitk
         Match(title="pinentry"),  # GPG key password entry
     ],
-    border_focus="#f38ba8",
-    border_normal="#1e1e2e",
+    border_focus=colors["green"],
+    border_normal=colors["black"],
 )
 auto_fullscreen = True
 focus_on_window_activation = "smart"
