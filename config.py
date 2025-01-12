@@ -3,28 +3,37 @@
 # 1 brightnessctl
 # 2 alsa-utils
 # 3 python-psutil
+# 4 dbus-next
+# 5 physlock
 
 ### DEPENDENCIES ###
 
-from libqtile import bar, layout, widget
+from libqtile import bar, layout, widget, hook
 from libqtile.config import Click, Drag, Group, Key, Match, Screen
 from libqtile.lazy import lazy
 from libqtile.utils import guess_terminal
+import subprocess
 
 # from PowerMenuWidget import PowerMenuWidget # fancy power menu
 
 # WAYLADND support
-# from libqtile import qtile
-# if qtile.core.name == "x11":
-#     term = "urxvt"
-# elif qtile.core.name == "wayland":
-#     term = "foot"
+# use xorg-server-wayland
 
-# ! no nitrogem, no rofi in wayland
+
+# Startup
+@hook.subscribe.startup
+def set_wallpaper():
+    # Wallpaper (required swaybg)
+    subprocess.Popen(["swaybg", "-i", "/home/feralsmurf/Downloads/wallpapers/star.jpg"])
+    # Run the battery check script (required mako)
+    subprocess.Popen(["mako"])
+    subprocess.Popen(["/home/feralsmurf/check_bat_w.sh"])
+
 
 # Catppuccin mocha color schme
 colors = {
     "red": "#f38ba8",
+    "orange": "#fab387",
     "green": "#a6e3a1",
     "yellow": "#f9e2af",
     "blue": "#89b4fa",
@@ -107,6 +116,8 @@ keys = [
     #################
     # Custom keys:
     #################
+    # physlock
+    Key([mod], "l", lazy.spawn("physlock -p '>>> Machine is now locked. Unlock? <<<'")),
     # brightness
     Key([], "XF86MonBrightnessUp", lazy.spawn("brightnessctl set +10%")),
     Key([], "XF86MonBrightnessDown", lazy.spawn("brightnessctl set 10%-")),
@@ -174,15 +185,19 @@ groups = [
     Group("3", label="γ", spawn=["alacritty -e fish -c 'wttr; exec fish'"]),
     Group("4", label="Δ"),
     Group("5", label="ε"),
+    Group("6", label="ζ"),
+    Group("7", label="η"),
+    Group("8", label="θ"),
+    Group("9", label="ι"),
 ]
 
 layouts = [
     layout.Columns(
-        border_focus=colors["blue"],
+        border_focus=colors["green"],
         border_normal=colors["black"],
         border_width=2,
         name="",
-        margin=4,
+        margin=8,  # gaps
     ),
     # layout.Max(),
     # Try more layouts by unleashing below layouts.
@@ -222,14 +237,13 @@ screens = [
                     },
                     name_transform=lambda name: name.upper(),
                 ),
-                widget.Clipboard(fmt="📋️ {}"),
                 widget.Systray(),
                 # widget.Net(
                 #     fmt="↕️ {} ",
                 #     format="{down:.0f}{down_suffix} ↓↑ {up:.0f}{up_suffix}",
                 #     prefix="M",
                 # ),
-                widget.Wlan(fmt=" 🌐 {} ", format="{essid}"),
+                widget.Wlan(fmt=" 🌐 {} ", format="{essid} {quality}/70"),
                 # widget.Pomodoro(
                 #     fmt="⏲️  {} ", prefix_inactive="Pomodoro"
                 # ),
@@ -249,8 +263,10 @@ screens = [
                 widget.DF(
                     partition="/",
                     format="{uf}{m} ",
-                    fmt="🔏 {}",
-                    visible_on_warn=False,
+                    fmt="🚧 🚧 🚧 root space warning {}",
+                    visible_on_warn=True,
+                    wrn_space=4,
+                    measure="G",
                 ),
                 widget.DF(
                     partition="/home",
@@ -261,7 +277,8 @@ screens = [
                 widget.Backlight(fmt="🪔 {} ", backlight_name="intel_backlight"),
                 widget.Volume(fmt="📢 {} "),
                 widget.Battery(
-                    fmt="⚡️ {} ", format="{char} {percent:2.0%} {hour:d}:{min:02d}"
+                    fmt="⚡️ {} ",
+                    format="{char} {percent:2.0%} {hour:d}:{min:02d}",
                 ),
                 widget.Clock(fmt="⏳️ {} ", format="%Y-%m-%d %a %H:%M"),
                 # widget.KeyboardLayout(fmt="🎹 {} ", configured_keyboards=["us", "ro"]),
@@ -271,6 +288,7 @@ screens = [
         ),
     ),
 ]
+
 
 # Drag floating layouts.
 mouse = [
